@@ -1,4 +1,4 @@
-const prisma = require('../prisma/prisma-client')
+const { prisma } = require('../prisma/prisma-client')
 const jwt = require('jsonwebtoken')
 
 const auth = async (req, res, next) => {
@@ -24,7 +24,6 @@ const auth = async (req, res, next) => {
         req.user = user
         next()
     } catch (error) {
-        console.log(error)
         res.status(500).json({message: "Ошибка сервера."})
     }
 }

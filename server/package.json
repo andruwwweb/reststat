@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "yarn nodemon ./bin/www"
+    "dev": "yarn nodemon ./bin/www",
+    "migrate": "npx prisma migrate dev --name init",
+    "prisma": "npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "5.4.2",

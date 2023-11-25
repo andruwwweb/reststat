@@ -45,38 +45,42 @@ const login = async (req, res) => {
 */
 const registration = async (req, res) => {
     try {
-        const { password, tel, name, email } = req.body
-        if (!email || !password || !name || !tel) {
+        const { password, name, email } = req.body
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email || !password || !name) {
             return res.status(400).json({message: "Заполните указанные поля."})
         }
+
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({message: "Введите корректный email адрес."})
+        }
+        
         const registeredUser = await prisma.user.findFirst({where: {
-            tel,
             email
         }})
     
         if (registeredUser) {
-            return res.status(400).json({message: "Пользователь с таким номером телефона или email уже существует"})
+            return res.status(400).json({message: "Пользователь с таким email уже существует"})
         }
-    
+
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
-    
+
         const user = await prisma.user.create({
             data: {
                 name,
-                tel,
                 email,
                 role: 'owner',
                 password: hashedPassword
             }
         })
-    
+
         const secret = process.env.JWT_SECRET
-    
+
         if (user && secret) {
             res.status(201).json({
                 id: user.id,
-                tel: user.tel,
                 role: user.role,
                 email: user.email,
                 name: user.name,
