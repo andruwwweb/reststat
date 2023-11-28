@@ -8,15 +8,15 @@ const jwt = require('jsonwebtoken')
  * @access Public
 */
 const login = async (req, res) => {
-    const { tel, password } = req.body
+    const { email, password } = req.body
 
     try {
-        if (!tel || !password) {
+        if (!email || !password) {
             return res.status(400).json({message: "Заполните данные для входа"})
         }
     
         const user = await prisma.user.findFirst({where: {
-            tel: tel
+            email: email
         }})
     
         const isPasswordCorrect = user && (await bcrypt.compare(password, user.password))
@@ -27,7 +27,6 @@ const login = async (req, res) => {
                 id: user.id,
                 email: user.email,
                 name: user.name,
-                tel: user.tel,
                 token: jwt.sign({id: user.id}, secret, {expiresIn: "24h"})
             })
         } else {
