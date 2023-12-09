@@ -13,8 +13,8 @@ const createCompany = async (req, res) => {
         const companyExists = await prisma.company.findMany({where: {
             userId: id
         }})
-        if(companyExists.length >= 2) {
-            return res.status(400).json({message: "Нельзя зарегистрировать больше двух компаний!"})
+        if(companyExists.length >= 1) {
+            return res.status(400).json({message: "Нельзя зарегистрировать больше одной компаний!"})
         }
         if (role === 'owner') {
             const company = await prisma.company.create({data: {
@@ -47,18 +47,18 @@ const editCompany = async (req, res) => {
     }
 
     try {
-        let company = await prisma.company.findUnique({
+        let companyExists = await prisma.company.findUnique({
             where: {
                 id: companyId,
                 userId: Number(req.user.id)
             }
         });
 
-        if (!company) {
+        if (!companyExists) {
             return res.status(404).json({message: "Компания не найдена."});
         }
 
-        company = await prisma.company.update({
+        const company = await prisma.company.update({
             where: {
                 id: companyId,
                 userId: req.user.id,
@@ -68,9 +68,14 @@ const editCompany = async (req, res) => {
             }
         });
 
-        res.status(200).json({message: "Компания успешно обновлена."});
-    } catch (e) {
-        res.status(500).json({message: "Произошла ошибка при обновлении компании."});
+        if (company) {
+            res.status(200).json({message: "Компания успешно обновлена."});
+        } else {
+            res.status(400).json({message: "Произошла ошибка при обновлении компании."});
+        }
+
+    } catch (error) {
+        res.status(500).json({message: `Ошибка сервера: ${error}`});
     }
 }
 

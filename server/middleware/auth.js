@@ -17,10 +17,14 @@ const auth = async (req, res, next) => {
             const user = await prisma.user.findUnique({where: {
                 id: decoded.id
             }})
+            const company = await prisma.company.findFirst({where: {
+                userId: decoded.id
+            }})
             if (!user) {
                 return res.status(401).json({ message: "Пользователь не найден" });
             }
             req.user = user
+            req.company = company
             next()
         }
         else if (decoded.role === 'employee') {
@@ -31,6 +35,7 @@ const auth = async (req, res, next) => {
                 return res.status(401).json({ message: "Пользователь не найден" });
             }
             req.user = user
+            req.company = user.companyId
             next()
         }
         else {
