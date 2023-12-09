@@ -8,33 +8,52 @@ const jwt = require('jsonwebtoken')
  * @access Public
 */
 const login = async (req, res) => {
-    const { email, password } = req.body
+    const { email, password, role } = req.body
 
     try {
-        if (!email || !password) {
+        if (!email || !password || !role) {
             return res.status(400).json({message: "Заполните данные для входа"})
         }
     
-        const user = await prisma.user.findFirst({where: {
-            email: email
-        }})
-    
-        const isPasswordCorrect = user && (await bcrypt.compare(password, user.password))
-        const secret = process.env.JWT_SECRET
-    
-        if (user && isPasswordCorrect && secret) {
-            res.status(200).json({
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                token: jwt.sign({id: user.id}, secret, {expiresIn: "24h"})
-            })
-        } else {
-            return res.status(400).json({message: "Неверено введен телефон или пароль"})
+        if (role === 'owner') {
+            const user = await prisma.user.findFirst({where: {
+                email: email
+            }})
+        
+            const isPasswordCorrect = user && (await bcrypt.compare(password, user.password))
+            const secret = process.env.JWT_SECRET
+        
+            if (user && isPasswordCorrect && secret) {
+                return res.status(200).json({
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    token: jwt.sign({id: user.id, role: user.role}, secret, {expiresIn: "24h"})
+                })
+            } else {
+                return res.status(400).json({message: "Неверено введен email или пароль"})
+            }
+        }
+        else if (role === 'employee') {
+            const employee = await prisma.employee.findFirst({where: {
+                email: email
+            }})
+
+            const isPasswordCorrect = employee && (await bcrypt.compare(password, employee.password))
+            const secret = process.env.JWT_SECRET
+        
+            if (employee && isPasswordCorrect && secret) {
+                return res.status(200).json({
+                    id: employee.id,
+                    email: employee.email,
+                    token: jwt.sign({id: employee.id, role: employee.role}, secret, {expiresIn: "24h"})
+                })
+            } else {
+                return res.status(400).json({message: "Неверено введен email или пароль"})
+            }
         }
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({message: 'Ошибка сервера.'})
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }
 }
 /**
@@ -89,8 +108,7 @@ const registration = async (req, res) => {
             return res.status(400).json({message: "Неизвестная ошибка, не удалось создать пользователя"})
         }
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({message: 'Ошибка сервера.'})
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }
 }
 /**
