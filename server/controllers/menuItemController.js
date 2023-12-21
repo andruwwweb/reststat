@@ -136,7 +136,6 @@ const getMenuItem = async (req, res) => {
     if (!menu.length) {
         return res.status(200).json({message: "У этой компании пока что не заполнено меню."})
     }
-
     return res.status(200).json({
         data: menu
     })

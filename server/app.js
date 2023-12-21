@@ -15,6 +15,8 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/company', require('./routes/company'));
 app.use('/api/employee', require('./routes/employee'));
 app.use('/api/menuItem', require('./routes/menuItem'));
+app.use('/api/order', require('./routes/order'));
+
 
 
 module.exports = app;

@@ -83,11 +83,44 @@ const deleteEmployee = async (req, res) => {
         res.status(200).json({message: "Сотрудник успешно удален."});
 
     } catch (error) {
-        res.status(500).json({message: "Произошла ошибка при удалении сотрудника."});
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
+    }
+}
+
+
+/**
+ * @route GET /api/employee/all
+ * @desc Получение всех сотрудников
+ * @access Privet
+*/
+const getAllEmployees = async (req, res) => {
+
+    const companyId = req.company.id
+
+    try {
+        const employees = await prisma.employee.findMany(
+            {where: {
+                companyId: companyId
+                },
+                select: {
+                    id: true,
+                    role: true,
+                    email: true,
+                }
+            })
+
+        if (!employees) {
+            return res.status(400).json({message: "Не удалось найти сотрудников для выбранной компании."});
+        }
+
+        return res.status(200).json(employees)
+    } catch (error) {
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }
 }
 
 module.exports = {
     createEmployee,
-    deleteEmployee
+    deleteEmployee,
+    getAllEmployees
 }

@@ -26,6 +26,7 @@ model Company {
   userId   Int?
   employee Employee[]
   MenuItem MenuItem[]
+  order    Order[]
 }
 
 model Employee {
@@ -38,20 +39,22 @@ model Employee {
 }
 
 model MenuItem {
-  id          Int      @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   price       Int
   caption     String
   description String
-  company     Company? @relation(fields: [companyId], references: [id])
+  company     Company?     @relation(fields: [companyId], references: [id])
   companyId   Int
   orderItems  OrderItems[]
 }
 
 model Order {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now())
-  payed      Boolean  @default(false)
+  id         Int          @id @default(autoincrement())
+  createdAt  DateTime     @default(now())
+  payed      Boolean      @default(false)
   orderItems OrderItems[]
+  company    Company?     @relation(fields: [companyId], references: [id])
+  companyId  Int
 }
 
 model OrderItems {

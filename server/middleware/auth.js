@@ -34,8 +34,11 @@ const auth = async (req, res, next) => {
             if (!user) {
                 return res.status(401).json({ message: "Пользователь не найден" });
             }
+            const company = await prisma.company.findUnique({where: {
+                id: user.companyId
+            }})
             req.user = user
-            req.company = user.companyId
+            req.company = company
             next()
         }
         else {
