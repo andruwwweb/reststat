@@ -6,8 +6,12 @@
 
 ## Установка
 
-yarn
-cd server
-yarn migare
-yarn dev
-yarn prisma
+*yarn
+
+*cd server
+
+*yarn migare
+
+*yarn dev
+
+*yarn prisma
