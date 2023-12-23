@@ -17,7 +17,7 @@ const createMenuItem = async (req, res) => {
 
 
         if (!price || !caption || !description) {
-            return res.status(401).json({message: 'Заполните все поля!'})
+            return res.status(400).json({message: 'Заполните все поля!'})
         }
         let menuItem = await prisma.menuItem.create({
             data: {

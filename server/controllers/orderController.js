@@ -17,7 +17,7 @@ const createOrder = async (req, res) => {
                 companyId: companyId
             }})
             if (!menuItemExists) {
-                return res.status(404).json({message: "Не удалось найти позицию в меню по переданным параметрам при создании заказа!"})
+                return res.status(400).json({message: "Не удалось найти позицию в меню по переданным параметрам при создании заказа!"})
             }
         }
 
@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
             if (orderItem) {
                 orderItemsList.push(orderItem)
             } else {
-                return res.status(404).json({message: 'Не удалось создать заказ, попробуйте снова!'})
+                return res.status(400).json({message: 'Не удалось создать заказ, попробуйте снова!'})
             }
         }
 
@@ -66,7 +66,7 @@ const getOrder = async (req, res) => {
         }})
 
         if (!order) {
-            return res.status(404).json({message: "Не удалоль найти заказ по переданным парметрам!"})
+            return res.status(400).json({message: "Не удалоль найти заказ по переданным парметрам!"})
         }
 
         let orderItems = await prisma.orderItems.findMany({
@@ -81,7 +81,7 @@ const getOrder = async (req, res) => {
         })
 
         if (!orderItems) {
-            return res.status(404).json({message: "Не удалоль найти данные для выбранного заказа!"})
+            return res.status(400).json({message: "Не удалоль найти данные для выбранного заказа!"})
         }
 
         for (let i=0; i<orderItems.length; i++) {
@@ -117,21 +117,54 @@ const getAllOrders = async (req, res) => {
     const companyId = req.company.id
     const limit = req.query.limit || 10
 
-    const orders = await prisma.order.findMany({where: {
-        companyId: companyId
-    },
-    take: +limit
-    })
-
-    if (!orders) {
-        return res.status(404).json({message: "Не удалоль найти данные заказов для выбранной компании!"})
+    try {
+        const orders = await prisma.order.findMany({where: {
+            companyId: companyId
+        },
+        take: +limit
+        })
+    
+        if (!orders) {
+            return res.status(400).json({message: "Не удалоль найти данные заказов для выбранной компании!"})
+        }
+    
+        return res.status(200).json(orders)
+    } catch (error) {
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }
+}
 
-    return res.status(200).json(orders)
+/**
+ * @route DELETE /api/order/delete/:id
+ * @desc Удаление заказа
+ * @access Privet
+*/
+const deleteOrder = async (req, res) => {
+    const orderId = Number(req.params.id)
+    const { role } = req.user
+
+    try {
+        if (role != "owner") {
+            return res.status(403).json({message: "Только администратор имеет права на удаление заказов."})
+        }
+
+        const order = await prisma.order.delete({where: {
+            id: orderId
+        }})
+
+        if (!order) {
+            return res.status(400).json({message: "Не удалось найти заказ по переданным параметрам."})
+        }
+
+        return res.status(200).json({message: "Заказ успешно удален!"})
+    } catch (error) {
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
+    }
 }
 
 module.exports = {
     getOrder,
     createOrder,
-    getAllOrders
+    getAllOrders,
+    deleteOrder
 }

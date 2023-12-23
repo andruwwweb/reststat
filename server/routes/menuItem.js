@@ -49,7 +49,7 @@ const router = express.Router();
  *         content:
  *           application/json:
  *             example:
- *               message: 'У вас недостаточно прав для добавления позиции в меню.'
+ *               message: 'Заполните все поля!'
  *       401:
  *         description: Unauthorized
  *         content:
@@ -106,7 +106,7 @@ router.post('/create', auth, createMenuItem);
  *                   description: "This is item 2."
  *                   price: 12.99
  *                   companyId: 1
- *       404:
+ *       400:
  *         description: Not Found
  *         content:
  *           application/json:
