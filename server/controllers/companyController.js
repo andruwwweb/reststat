@@ -25,7 +25,7 @@ const createCompany = async (req, res) => {
                 return res.status(201).json(company)
             }
         } else {
-            return res.status(400).json({message: "У вас нет прав на создание компании."})
+            return res.status(403).json({message: "У вас нет прав на создание компании."})
         }
         return
     } catch (e) {
@@ -43,7 +43,7 @@ const editCompany = async (req, res) => {
     const { caption } = req.body
 
     if (req.user.role !== 'owner') {
-        return res.status(400).json({message: "У вас нет прав на редактирование компании."})
+        return res.status(403).json({message: "У вас нет прав на редактирование компании."})
     }
 
     try {
@@ -69,9 +69,9 @@ const editCompany = async (req, res) => {
         });
 
         if (company) {
-            res.status(200).json({message: "Компания успешно обновлена."});
+            return res.status(200).json({message: "Компания успешно обновлена."});
         } else {
-            res.status(400).json({message: "Произошла ошибка при обновлении компании."});
+            return res.status(400).json({message: "Произошла ошибка при обновлении компании."});
         }
 
     } catch (error) {
@@ -89,7 +89,7 @@ const deleteCompany = async (req, res) => {
     const companyId = Number(req.params.id)
 
     if (role !== 'owner') {
-        return res.status(400).json({message: "У вас нет прав на удаление компании."})
+        return res.status(403).json({message: "У вас нет прав на удаление компании."})
     }
 
     try {
@@ -98,7 +98,7 @@ const deleteCompany = async (req, res) => {
             userId: id
         }})
         if (!result) {
-            return res.status(400).json({message: "Не удалось найти компании по переданным параметрам."});
+            return res.status(404).json({message: "Не удалось найти компании по переданным параметрам."});
         }
         res.status(200).json({message: "Компания успешно удалена."});
 

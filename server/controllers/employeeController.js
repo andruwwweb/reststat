@@ -14,13 +14,13 @@ const createEmployee = async (req, res) => {
 
     try {
         if (!email || !password || !companyId) {
-            return res.status(400).json({message: "Заполните данные для входа."})
+            return res.status(400).json({message: "Заполните данные для создания сотрудника."})
         }
         if (!emailRegexp.test(email)) {
             return res.status(400).json({message: "Введите корректный email адрес."})
         }
         if (!role || role !== 'owner') {
-            return res.status(400).json({message: "У вас недостаточно прав для создания сотрудника."})
+            return res.status(403).json({message: "У вас недостаточно прав для создания сотрудника."})
         }
 
         const registeredEmployee = await prisma.employee.findFirst({where: {
@@ -61,34 +61,6 @@ const createEmployee = async (req, res) => {
 }
 
 /**
- * @route DELETE /api/employee/delete/:id
- * @desc Удаление сотрудника
- * @access Privet
-*/
-const deleteEmployee = async (req, res) => {
-    const { role } = req.user
-    const employeeId = Number(req.params.id)
-
-    if (!role || role !== 'owner') {
-        return res.status(400).json({message: "У вас нет прав на удаление сотрудника."})
-    }
-    
-    try {
-        const result = await prisma.employee.delete({where: {
-            employeeId
-        }})
-        if (!result) {
-            return res.status(400).json({message: "Не удалось найти сотрудника для удаления по переданным параметрам."});
-        }
-        res.status(200).json({message: "Сотрудник успешно удален."});
-
-    } catch (error) {
-        return res.status(500).json({message: `Ошибка сервера: ${error}`})
-    }
-}
-
-
-/**
  * @route GET /api/employee/all
  * @desc Получение всех сотрудников
  * @access Privet
@@ -114,6 +86,34 @@ const getAllEmployees = async (req, res) => {
         }
 
         return res.status(200).json(employees)
+    } catch (error) {
+        return res.status(500).json({message: `Ошибка сервера: ${error}`})
+    }
+}
+
+
+/**
+ * @route DELETE /api/employee/delete/:id
+ * @desc Удаление сотрудника
+ * @access Privet
+*/
+const deleteEmployee = async (req, res) => {
+    const { role } = req.user
+    const employeeId = Number(req.params.id)
+
+    if (!role || role !== 'owner') {
+        return res.status(400).json({message: "У вас нет прав на удаление сотрудника."})
+    }
+    
+    try {
+        const result = await prisma.employee.delete({where: {
+            employeeId
+        }})
+        if (!result) {
+            return res.status(400).json({message: "Не удалось найти сотрудника для удаления по переданным параметрам."});
+        }
+        res.status(200).json({message: "Сотрудник успешно удален."});
+
     } catch (error) {
         return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }

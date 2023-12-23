@@ -10,7 +10,7 @@ const createMenuItem = async (req, res) => {
     const { role } = req.user
     try {
         if (!role || role !== 'owner') {
-            return res.status(400).json({message: "У вас недостаточно прав для добавления позиции в меню."})
+            return res.status(403).json({message: "У вас недостаточно прав для добавления позиции в меню."})
         }
 
         const companyId = req.company.id
@@ -55,7 +55,7 @@ const editMenuItem = async (req, res) => {
 
     try {
         if (!role || role !== 'owner') {
-            return res.status(400).json({message: "У вас недостаточно прав для создания сотрудника."})
+            return res.status(403).json({message: "У вас недостаточно прав для создания сотрудника."})
         }
 
         const menuItem = await prisma.menuItem.findUnique({where: {
@@ -91,6 +91,30 @@ const editMenuItem = async (req, res) => {
 }
 
 /**
+ * @route POST /api/menuItem/all
+ * @desc Получение всех позиции меню
+ * @access Privet
+**/
+
+const getMenuItem = async (req, res) => {
+    const { companyId } = req.body
+
+    const menu = await prisma.menuItem.findMany({where: {
+        companyId
+    }})
+
+    if (!menu) {
+        return res.status(404).json({message: "Не удалось найти меню указанной компании!"})
+    }
+    if (!menu.length) {
+        return res.status(204).json({message: "У этой компании пока что не заполнено меню."})
+    }
+    return res.status(200).json({
+        data: menu
+    })
+}
+
+/**
  * @route PATCH /api/menuItem/delete/:id
  * @desc Удаление позиции меню
  * @access Privet
@@ -100,7 +124,7 @@ const deleteMenuItem = async (req, res) => {
     const { role } = req.user
 
     if (!role || role !== 'owner') {
-        return res.status(400).json({message: "У вас нет прав на удаление позиции меню."})
+        return res.status(403).json({message: "У вас нет прав на удаление позиции меню."})
     }
 
     try {
@@ -117,33 +141,9 @@ const deleteMenuItem = async (req, res) => {
     }
 }
 
-/**
- * @route GET /api/menuItem/all
- * @desc Получение всех позиции меню
- * @access Privet
-**/
-
-const getMenuItem = async (req, res) => {
-    const { companyId } = req.body
-
-    const menu = await prisma.menuItem.findMany({where: {
-        companyId
-    }})
-
-    if (!menu) {
-        return res.status(404).json({message: "Не удалось найти меню указанной компании!"})
-    }
-    if (!menu.length) {
-        return res.status(200).json({message: "У этой компании пока что не заполнено меню."})
-    }
-    return res.status(200).json({
-        data: menu
-    })
-}
-
 module.exports = {
     createMenuItem,
     editMenuItem,
-    deleteMenuItem,
-    getMenuItem
+    getMenuItem,
+    deleteMenuItem
 }
