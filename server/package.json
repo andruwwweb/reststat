@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "yarn nodemon ./bin/www",
     "migrate": "npx prisma migrate dev --name init",
-    "prisma": "npx prisma studio"
+    "prisma": "npx prisma studio",
+    "generate": "npx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "5.4.2",
