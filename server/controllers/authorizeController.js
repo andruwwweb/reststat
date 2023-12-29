@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 /**
- * @route POST /api/user/login
+ * @route POST /api/authorize/login
  * @desc Вход пользователя
  * @access Public
 */
@@ -57,7 +57,7 @@ const login = async (req, res) => {
     }
 }
 /**
- * @route POST /api/registration
+ * @route POST /api/authorize/registration
  * @desc Регистрация пользователя
  * @access Public
 */
@@ -111,17 +111,9 @@ const registration = async (req, res) => {
         return res.status(500).json({message: `Ошибка сервера: ${error}`})
     }
 }
-/**
- * @route GET /api/user/current
- * @desc Текущий пользователь
- * @access Privat
- */
-const current = async (req, res) => {
-    return res.status(200).json(req.user)
-}
+
 
 module.exports = {
     login,
-    registration,
-    current,
+    registration
 }

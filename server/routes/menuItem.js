@@ -40,7 +40,7 @@ const router = express.Router();
  *           application/json:
  *             example:
  *               id: 1
- *               price: 10.99
+ *               price: 990
  *               caption: "Example Item"
  *               description: "This is an example menu item."
  *               companyId: 1
