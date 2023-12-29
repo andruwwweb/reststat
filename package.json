@@ -8,7 +8,7 @@
     "migrate": "npx prisma migrate dev --name init",
     "prisma": "npx prisma studio",
     "generate": "npx prisma generate",
-    "build": "cd server && yarn && npx prisma generate && npx prisma migrate dev --name init && node ./bin/www"
+    "build": "yarn && npx prisma generate && npx prisma migrate dev --name init && node ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "5.4.2",
