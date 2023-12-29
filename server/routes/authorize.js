@@ -9,7 +9,7 @@ const router = express.Router();
  *     summary: User login
  *     description: Endpoint for user login.
  *     tags:
- *       - Login
+ *       - Authorize
  *     parameters:
  *       - in: body
  *         name: LoginData
@@ -61,7 +61,7 @@ router.post('/login', login);
  *     summary: User registration
  *     description: Endpoint for user registration.
  *     tags:
- *       - Register
+ *       - Authorize
  *     parameters:
  *       - in: body
  *         name: RegisterData

@@ -1,0 +1,9 @@
+[build]
+  command = "yarn build"
+  functions = "server/app.js"
+
+[build.environment]
+  NODE_VERSION = "latest"
+  PORT = 3300
+  JWT_SECRET = "9872255200"
+  DATABASE_URL = "file:./dev.db"
