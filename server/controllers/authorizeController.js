@@ -112,8 +112,21 @@ const registration = async (req, res) => {
     }
 }
 
+/**
+ * @route POST /api/authorize/current
+ * @desc Проверка пользователя по токену
+ * @access Public
+*/
+const current = async (req, res) => {
+    try {
+        return res.status(200).json(req.user)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
     login,
-    registration
+    registration,
+    current
 }

@@ -1,0 +1,154 @@
+.auth__container {
+    width: 90%;
+    max-width: 700px;
+    margin: 20px auto;
+}
+.auth__type {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    margin: 0 auto;
+}
+.type__button {
+    background-color: #438470;
+    display: block;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #F4F4F4;
+    width: 120px;
+    cursor: pointer;
+    border: 2px solid #438470;
+
+    &:disabled {
+        opacity: 0.5;
+    }
+    &_active {
+        background-color: #F4F4F4;
+        display: block;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        border: 2px solid #438470;
+        font-size: 18px;
+        font-weight: 400;
+        color: #438470;
+        width: 120px;
+        cursor: pointer;
+    }
+}
+.inputs_container {
+    overflow: hidden;
+    position: relative;
+    margin-top: 24px;
+    border: 2px solid #7065ba;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    p {
+        color: #101010;
+    }
+    input {
+        width: 100%;
+        display: block;
+        border: 2px solid #7065ba;
+        background: transparent;
+        outline: none;
+        height: 40px;
+        color: #101010;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        font-size: 18px;
+        padding: 8px;
+        &:focus {
+            border: 2px solid #438470;
+        }
+        &::placeholder {
+            color: #7065ba;
+        }
+
+    }
+    .password__error {
+        border: 2px solid red;
+    }
+}
+.input_layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.role__switcher {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.role__button {
+    display: block;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #438470;
+    font-size: 16px;
+    font-weight: 400;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+.role__button_active {
+    display: block;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #438470;
+    font-size: 16px;
+    font-weight: 600;
+    padding-bottom: 2px;
+    cursor: pointer;
+    border-bottom: 2px solid #438470;
+}
+.submit__wrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    align-items: center;
+}
+.error__message {
+    font-size: 12px;
+    font-weight: 500;
+    color: red;
+}
+
+.preloader {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #FFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__image {
+        width: 90px;
+        height: 90px;
+        background-image: url('../../assets/preloader.gif');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
