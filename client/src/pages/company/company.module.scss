@@ -1,0 +1,64 @@
+.company__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+}
+.company__card {
+    padding: 20px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    border: 2px solid #438470;
+}
+.warning {
+    font-size: 22px;
+    font-weight: 500;
+}
+.modal__layout {
+    position: fixed;
+    z-index: 7;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal__body {
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+    p {
+        font-size: 18px;
+        font-weight: 500;
+    }
+}
+.modal__actions {
+    gap: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.error__message {
+    font-size: 12px;
+    font-weight: 500;
+    color: red;
+}

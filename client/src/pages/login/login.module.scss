@@ -57,29 +57,6 @@
     p {
         color: #101010;
     }
-    input {
-        width: 100%;
-        display: block;
-        border: 2px solid #7065ba;
-        background: transparent;
-        outline: none;
-        height: 40px;
-        color: #101010;
-        border-radius: 8px;
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        -ms-border-radius: 8px;
-        -o-border-radius: 8px;
-        font-size: 18px;
-        padding: 8px;
-        &:focus {
-            border: 2px solid #438470;
-        }
-        &::placeholder {
-            color: #7065ba;
-        }
-
-    }
     .password__error {
         border: 2px solid red;
     }
@@ -130,25 +107,4 @@
     font-size: 12px;
     font-weight: 500;
     color: red;
-}
-
-.preloader {
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #FFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &__image {
-        width: 90px;
-        height: 90px;
-        background-image: url('../../assets/preloader.gif');
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
 }

@@ -1,0 +1,18 @@
+.error__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    h1 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .error_image {
+        background-image: url('../../assets/error.png');
+        width: 400px;
+        height: 400px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}

@@ -33,7 +33,7 @@ const initialState = {
 }
 
 const userReducer = createSlice({
-    name: 'userReducer',
+    name: 'user',
     initialState,
     reducers: {
         setUser: (state, action) => {
@@ -49,7 +49,7 @@ const userReducer = createSlice({
                 state.status = 'loading';
             })
             .addCase(getUser.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = 'success';
                 state.data = action.payload;
             })
             .addCase(getUser.rejected, (state, action) => {

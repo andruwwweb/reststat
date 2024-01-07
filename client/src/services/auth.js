@@ -14,18 +14,30 @@ const authenticate = (token) => {
 const out = () => {
     localStorage.removeItem('auth')
 }
-const currentUserQuery = async (navigate, dispatch, isAuth, getData) => {
+const getAuthorizedData = async (url, token) => {
+    const res = await fetch(url, {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    });
+    if (!res.ok) {
+        throw new Error(res.message);
+    }
+    else {
+        return res.json();
+    }
+};
+const currentUserQuery = async (navigate, dispatch, isAuth) => {
     const token = checkAuth();
 
     if (!isAuth && !token) {
         navigate('/authorize');
     }
     else if (!isAuth && token) {
-        getData(`${API_BASE}authorize/current`, token)
+        getAuthorizedData(`${API_BASE}authorize/current`, token)
             .then((data) => {
                 dispatch(setUser(data));
                 dispatch(setAuth(true));
-                navigate('/profile');
             })
             .catch(() => {
                 navigate('/authorize')

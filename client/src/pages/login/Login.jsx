@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { selectUserData, selectUserStatus, selectUserError, selectError } from '../../api/selectors';
 import { getUser } from '../../reducers/userReducer'
 import { setAuth } from '../../reducers/authReducer';
 import { switchError } from '../../reducers/errorReducer';
 import { authenticate } from '../../services/auth';
 import styles from './login.module.scss'
+import { Preloader } from '../../components/preloader/Preloader';
+import { CommonInput } from '../../components/CommonInput';
 
 export const Login = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const userData = useSelector(selectUserData);
-    const userStatus = useSelector(selectUserStatus);
-    const userError = useSelector(selectUserError);
-    const isError = useSelector(selectError)
+    const userData = useSelector(state => state.reducer.user.data);
+    const userStatus = useSelector(state => state.reducer.user.status);
+    const userError = useSelector(state => state.reducer.user.error);
+    const isError = useSelector(state => state.reducer.error.isError)
     const [ isRegister, setIsRegister ] = useState(true)
     const [ password, setPassword ] = useState('')
     const [ email, setEmail ] = useState('')
@@ -43,15 +44,17 @@ export const Login = () => {
             if (password !== repeatedPassword) {
                 setPasswordError(true)
                 return
-            } else setPasswordError(false)
-            dispatch(getUser({ endpoint: 'authorize/registration', data: { name, email, password } }));
+            } else {
+                setPasswordError(false)
+                dispatch(getUser({ endpoint: 'authorize/registration', data: { name, email, password } }));
+            }
         } else {
             dispatch(getUser({ endpoint: 'authorize/login', data: { email, password, role } }));
         }
     };
 
     useEffect(() => {
-        if (userStatus === 'succeeded') {
+        if (userStatus === 'success') {
             dispatch(setAuth(true))
             authenticate(userData.token)
             navigate('/profile')
@@ -80,12 +83,7 @@ export const Login = () => {
                 </button>
             </div>
             <form className={styles.inputs_container} onSubmit={registerHandler}>
-                {
-                    userStatus == 'loading' && 
-                    <div className={styles.preloader}>
-                        <div className={styles.preloader__image}></div>
-                    </div>
-                }
+                {userStatus == 'loading' && <Preloader/>}
                 {
                     !isRegister &&
                     <div className={styles.role__switcher}>
@@ -107,7 +105,7 @@ export const Login = () => {
 
                 <div className={styles.input_layout}>
                     <p>Your email</p>
-                    <input
+                    <CommonInput
                         type="text"
                         value={email}
                         onInput={(e) => credentialHandler(e, setEmail)}
@@ -117,7 +115,7 @@ export const Login = () => {
                     isRegister && 
                     <div className={styles.input_layout}>
                         <p>Your name</p>
-                        <input
+                        <CommonInput
                             type="text"
                             value={name}
                             onInput={(e) => credentialHandler(e, setName)}
@@ -126,7 +124,7 @@ export const Login = () => {
                 }
                 <div className={styles.input_layout}>
                     <p>Your password</p>
-                    <input
+                    <CommonInput
                         className={passwordError ? styles.password__error : null}
                         type="password"
                         value={password}
@@ -137,7 +135,7 @@ export const Login = () => {
                     isRegister && 
                     <div className={styles.input_layout}>
                         <p>Repeat your password</p>
-                        <input
+                        <CommonInput
                             className={passwordError ? styles.password__error : null}
                             type="password"
                             value={repeatedPassword}

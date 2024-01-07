@@ -1,0 +1,90 @@
+.warning {
+    font-size: 22px;
+    font-weight: 500;
+}
+.company__card {
+    padding: 20px;
+    border: 2px solid #438470;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    width: 30%;
+}
+.company__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.actions__list {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 12px;
+}
+.edit {
+    width: 35px;
+    height: 35px;
+    background-image: url('../../assets/edit_v.png');
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    border: 2px solid #7065ba;
+    outline: none;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: block;
+    &:hover {
+        background-image: url('../../assets/edit_w.png');
+        background-color: #7065ba;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+    }
+}
+.delete {
+    width: 35px;
+    height: 35px;
+    background-image: url('../../assets/delete_v.png');
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    border: 2px solid #7065ba;
+    outline: none;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: block;
+    &:hover {
+        background-image: url('../../assets/delete_w.png');
+        background-color: #7065ba;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+    }
+}

@@ -2,7 +2,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import styles from './nav.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectUserAuth } from '../../api/selectors';
 import { setAuth } from '../../reducers/authReducer';
 import { out } from '../../services/auth';
 import { resetStatus, setUser } from '../../reducers/userReducer';
@@ -10,7 +9,7 @@ import { resetStatus, setUser } from '../../reducers/userReducer';
 
 export const Nav = () => {
 
-  const auth = useSelector(selectUserAuth);
+  const isAuth = useSelector(state => state.reducer.auth.isAuth);
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -23,7 +22,7 @@ export const Nav = () => {
 
   return (
     <div className={styles.navbar}>
-            {auth
+            {isAuth
             ?
             <div className={styles.menu__item}>
                 <Link className={location.pathname === '/company' ? styles.nav__item_active : styles.nav__item} to="/company">Company</Link>

@@ -1,6 +1,6 @@
 const express = require('express');
 const { auth } = require('../middleware/auth');
-const { createCompany, editCompany, deleteCompany } = require('../controllers/companyController');
+const { createCompany, editCompany, deleteCompany, getCompany } = require('../controllers/companyController');
 const router = express.Router();
 /**
  * @swagger
@@ -63,6 +63,47 @@ const router = express.Router();
  *               message: 'Ошибка сервера: Описание ошибки.'
  */
 router.post('/create', auth, createCompany);
+
+/**
+ * @swagger
+ * /api/company/get:
+ *   get:
+ *     summary: Get a company
+ *     description: Endpoint for getting user company.
+ *     tags:
+ *       - Company
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer token for authentication
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Company received
+ *         content:
+ *           application/json:
+ *             examples:
+ *               case1:
+ *                 value:
+ *                   message: 'Вы пока что не зарегистрировали ни одной компании.'
+ *               case2:
+ *                 value:
+ *                   id: 1
+ *                   caption: "Company Caption"
+ *                   userId: 1
+
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: 'Ошибка сервера: Описание ошибки.'
+ */
+router.get('/get', auth, getCompany);
 
 /**
  * @swagger

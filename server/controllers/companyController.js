@@ -13,8 +13,8 @@ const createCompany = async (req, res) => {
         const companyExists = await prisma.company.findMany({where: {
             userId: id
         }})
-        if(companyExists.length >= 1) {
-            return res.status(400).json({message: "Нельзя зарегистрировать больше одной компаний!"})
+        if(companyExists.length >= 3) {
+            return res.status(400).json({message: "Нельзя зарегистрировать больше трех компаний!"})
         }
         if (role === 'owner') {
             const company = await prisma.company.create({data: {
@@ -27,8 +27,30 @@ const createCompany = async (req, res) => {
         } else {
             return res.status(403).json({message: "У вас нет прав на создание компании."})
         }
-        return
     } catch (e) {
+        return res.status(500).json({message: 'Ошибка сервера.'})
+    }
+}
+
+/**
+ * @route GET /api/company/get
+ * @desc Получение компании
+ * @access Privet
+*/
+const getCompany = async (req, res) => {
+    const userId = req.user.id
+    try {
+        const company = await prisma.company.findMany({where: {
+            userId
+        }})
+
+        if (company.length < 1) {
+            return res.status(200).json({message: "У вас нет зарегистрированных компаний!"})
+        }
+
+        return res.status(200).json(company)
+
+    } catch (error) {
         return res.status(500).json({message: 'Ошибка сервера.'})
     }
 }
@@ -111,4 +133,5 @@ module.exports = {
     createCompany,
     editCompany,
     deleteCompany,
+    getCompany
 }

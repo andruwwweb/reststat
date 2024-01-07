@@ -4,7 +4,7 @@ const initialState = {
     isError: false,
 }
 const errorReducer = createSlice({
-    name: 'errorReducer',
+    name: 'error',
     initialState,
     reducers: {
       switchError: (state) => {
